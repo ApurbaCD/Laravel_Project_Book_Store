@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
         // factory is to used to create 10 random user in database
          User::factory(10)->create();
 
-         book::truncate();
+         Book::truncate();
         // factory is to used to create 10 random user in database
-         book::factory(100)->create();
+         Book::factory(100)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
