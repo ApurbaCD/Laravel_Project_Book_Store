@@ -22,4 +22,77 @@ class Bookcontroller extends Controller
          return view('books.show')
                 ->with('book',$book);
     }
+
+    public function create(){
+        return view('books.create');
+    }
+
+
+    public function store(Request $request){
+       // dd($request->all());
+        $rules=[
+            'title'=>'required',
+            'author'=>'required',
+            'isbn'=>'required|integer|digits:13',
+            'price'=>'required|numeric|min:0',
+            //'stock'=>['required','min:0','integer'],
+            'stock'=>'required|min:0|integer'
+        ];
+        $request->validate($rules);
+
+        // return "all data is valid";
+        $book = new book();
+        $book->title=$request->title;
+        $book->author=$request->author;
+        $book->stock=$request->stock;
+        $book->isbn=$request->isbn;
+        $book->price=$request->price;
+        $book->save();
+        //return redirect()->route('books.index');
+        return redirect()->route('books.show',$book->id);
+
+
+
+    }
+
+    public function edit($id){
+        //return $id;
+        $book=book::findorfail($id);
+        //dd($book->toArray());
+        return view('books.edit')
+        ->with('book',$book);
+    }
+
+    public function update(Request $request){
+        //dd($request->all());
+
+        $rules=[
+            'title'=>'required',
+            'author'=>'required',
+            'isbn'=>'required|integer|digits:13',
+            'price'=>'required|numeric|min:0',
+            //'stock'=>['required','min:0','integer'],
+            'stock'=>'required|min:0|integer'
+        ];
+        $request->validate($rules);
+
+        $book =book::findorfail($request->id);
+
+        $book->title=$request->title;
+        $book->author=$request->author;
+        $book->stock=$request->stock;
+        $book->isbn=$request->isbn;
+        $book->price=$request->price;
+        $book->save();
+        return redirect()->route('books.show',$book->id);
+    }
+    public function destroy(Request $request){
+        $book= Book::findorfail($request->id);
+        //echo "L:";
+        //return "KL";
+        // dd($book);
+        $book->delete();
+        return redirect()->route('books.index');
+    }
 }
+
