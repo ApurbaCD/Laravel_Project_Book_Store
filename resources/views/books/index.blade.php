@@ -5,10 +5,21 @@
 @endsection
 
 @section('page-content')
+    <!-- {{request()}} -->
 
     <div class="row mt-2" >
         <div class="col-lg-10">
-            Search Functionality
+           <form method="get" action="{{route('books.index')}}">
+           <div class="row g-3">
+                <div class="col">
+                    <input type="text" class="form-control" name="search" placeholder="Search" value={{request('search')}}>
+                </div>
+                <div class="col">
+                    <button type="text" class="btn btn-success">Search</button>
+                </div>
+            </div>
+
+           </form>
         </div>
         <div class="col-lg-2">
             <p class="text-end">

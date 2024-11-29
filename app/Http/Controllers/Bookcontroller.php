@@ -9,7 +9,16 @@ class Bookcontroller extends Controller
 {
     public function index(Request $request){
         //dd($request);
-        $books = Book::paginate(20);
+        if($request->has('search')){
+            $books=Book::query()
+                        ->where('author','like','%'.$request->get('search').'%')
+                        ->orwhere('title','like','%'.$request->get('search').'%')
+                                ->paginate(10);
+        }
+        else{
+            $books = Book::paginate(20);
+        }
+
         return View('books.index')->with('books',$books);
     }
 
